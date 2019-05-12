@@ -8,6 +8,10 @@ a node api for a tricount like application
 Using mongodb:
 follow the following instructions: [mongodb](https://docs.mongodb.com/v3.6/tutorial/install-mongodb-on-debian/)
 
+- install mongodb
+- create a folder where you want to save database and grant access
+- `mongod --dbpath <path to data directory>`
+
 
 2. application installation
 

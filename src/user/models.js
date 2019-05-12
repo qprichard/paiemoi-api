@@ -1,11 +1,21 @@
 /* USER Model */
-const mongoose = require('mongoose');
+const mongoDB = require('../db');
 
-const userSchema = new mongoose.Schema({
-  username: String,
-  firstname: String,
-  lastname: String,
-  email: String
-})
+const UserModel = mongoDB.model('User');
 
-module.exports = mongoose.model('User', userSchema);
+class User extends UserModel {
+  constructor({
+    username,
+    firstname,
+    lastname,
+    email
+  }) {
+    super();
+    this.username = username;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.email = email;
+  }
+}
+
+module.exports = User

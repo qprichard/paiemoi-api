@@ -6,7 +6,7 @@ const User = require('./models');
 //get all users
 exports.getUsers = async (req, reply) => {
   try {
-    const users = await User.find()
+    const users = await User.all()
     return users;
   } catch (err) {
     throw boom.boomify(err);
@@ -17,7 +17,7 @@ exports.getUsers = async (req, reply) => {
 exports.getSingleUser = async (req, reply) => {
   try {
     const id = req.params.id
-    const user = await User.findById(id)
+    const user = await User.get({ id })
     return user;
   } catch (err) {
     throw boom.boomify(err);

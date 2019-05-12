@@ -1,6 +1,7 @@
 const indexRouter = require('./routes');
-const config = require('../public/config');
-const mongoose = require('mongoose');
+const db = require('./db')
+
+
 
 const app = async() => {
   try {
@@ -15,10 +16,6 @@ const app = async() => {
 //Run api server
 app();
 
-
-/*
-Connect to mongoDB
-*/
-mongoose.connect(`mongodb://localhost/${config.DB_NAME}`, { useNewUrlParser: true })
+db.connect()
   .then(() => console.log('MongoDB connected...'))
-  .catch(err => console.log(err))
+  .catch((err) => console.log(err))
