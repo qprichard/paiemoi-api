@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
-import app from "../app";
-import debugLib from "debug";
-import http from "http";
+const app = require("../app");
+const debugLib = require("debug");
+const http = require("http");
 
 const debug = debugLib('paiemoi-api:server');
 

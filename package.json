@@ -3,12 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "server": "babel-node ./src/bin/www",
+    "server": "node ./src/bin/www",
     "dev": "NODE_ENV=development npm-run-all server",
     "clean": "rimraf dist",
-    "build": "babel ./src --out-dir dist",
-    "prod": "NODE_EV=production npm-run-all clean build server:prod",
+    "prod": "NODE_EV=production npm-run-all clean server:prod",
     "watch": "nodemon"
   },
   "dependencies": {
@@ -20,10 +18,6 @@
     "rimraf": "^2.6.3"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.4",
-    "@babel/node": "^7.2.2",
-    "@babel/preset-env": "^7.4.4",
     "nodemon": "^1.19.0"
   }
 }
