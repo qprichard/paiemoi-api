@@ -1,18 +1,24 @@
-const express = require("express");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require('morgan');
+const indexRouter = require('./routes');
+const config = require('../public/config');
+const mongoose = require('mongoose');
 
-const indexRouter = require('./routes/index');
+const app = async() => {
+  try {
+    await indexRouter.listen(3000);
+    indexRouter.log.info(`server listening on ${indexRouter.server.address().port}`)
+  } catch(err) {
+    indexRouter.log.error(err)
+    process.exit(1)
+  }
+}
 
-const app = express();
+//Run api server
+app();
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../public')));
 
-app.use('/', indexRouter);
-
-module.exports = app;
+/*
+Connect to mongoDB
+*/
+mongoose.connect(`mongodb://localhost/${config.DB_NAME}`, { useNewUrlParser: true })
+  .then(() => console.log('MongoDB connected...'))
+  .catch(err => console.log(err))
