@@ -1,30 +1,48 @@
-const userController = require('./controllers');
+const User = require('./models');
+const ControllerProvider = require('../providers/controllerProvider');
+
+const userController = new ControllerProvider(User);
 
 const routes = [
   {
     method: 'GET',
     url: '/api/users',
-    handler: userController.getUsers
+    handler: () => userController.all()
+  },
+  {
+    method: 'POST',
+    url: '/api/users/many',
+    handler: (...args) => userController.get(...args),
   },
   {
     method: 'GET',
     url: '/api/users/:id',
-    handler: userController.getSingleUser
+    handler: (...args) => userController.getById(...args)
   },
   {
     method: 'POST',
     url: '/api/users',
-    handler: userController.addUser,
+    handler: (...args) => userController.add(...args),
   },
   {
-    method: 'PUT',
+    method: 'PATCH',
     url: '/api/users/:id',
-    handler: userController.updateUser
+    handler: (...args) => userController.update(...args)
+  },
+  {
+    method: 'PATCH',
+    url: '/api/users',
+    handler: (...args) => userController.update(...args)
   },
   {
     method: 'DELETE',
     url: '/api/users/:id',
-    handler: userController.deleteUser
+    handler: (...args) => userController.delete(...args)
+  },
+  {
+    method: 'DELETE',
+    url: '/api/users',
+    handler: (...args) => userController.delete(...args)
   }
 ]
 
