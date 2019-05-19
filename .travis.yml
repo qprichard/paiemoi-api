@@ -1,0 +1,31 @@
+language: node_js
+
+env:
+  global:
+    - MONGODB_VERSION=4.0.2
+    - DB_NAME=paiemoi_test
+
+notifications:
+  email:
+    recipients:
+      - quentin.richard@etu.utc.fr
+
+before_install:
+  # Install Mongo DB
+  - wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-$MONGODB_VERSION.tgz
+  - tar xfz mongodb-linux-x86_64-$MONGODB_VERSION.tgz
+  - export PATH=`pwd`/mongodb-linux-x86_64-$MONGODB_VERSION/bin:$PATH
+  - mkdir -p data/db
+  - mongod --dbpath data/db --port 27017 &
+
+before_script:
+  # Initialize mongo user parameters
+  - sleep 15
+  - mongo $DB_NAME --eval 'db.createUser({user:"user_test", pwd:"password_test", roles:["readWrite"]});'
+branches:
+  only:
+    - master
+    - /v\d+.\d+(\.d+)?(-[a-zA-Z0-9]+)?/
+
+git:
+  depth: 2

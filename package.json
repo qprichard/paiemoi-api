@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "test": "NODE_ENV=test nyc mocha --exit ./src/__tests__",
     "server": "node ./src/app",
     "dev": "NODE_ENV=development npm-run-all server",
     "clean": "rimraf dist",
-    "prod": "NODE_EV=production npm-run-all clean server:prod",
-    "watch": "nodemon"
+    "prod": "NODE_ENV=production npm-run-all clean server:prod",
+    "watch": "NODE_ENV=development nodemon"
   },
   "dependencies": {
     "@jsmrcaga/mongo": "^0.1.0",
@@ -15,11 +16,13 @@
     "express": "~4.16.1",
     "fastify": "^2.3.0",
     "fastify-swagger": "^2.4.0",
-    "mongoose": "^5.5.7",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3"
   },
   "devDependencies": {
-    "nodemon": "^1.19.0"
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.0",
+    "nyc": "^14.1.1"
   }
 }
