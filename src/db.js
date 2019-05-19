@@ -16,12 +16,16 @@ const {
 /*
 Connect to mongoDB
 */
-const myDB = new Database(DB_NAME, {
-  username: DB_USERNAME,
-  password: DB_PASSWORD,
-  endpoint: DB_ENDPOINT,
-  database: DB_NAME,
-  port: DB_PORT,
-})
+let myDB = null;
 
-module.exports = myDB
+if( !myDB ) {
+  myDB = new Database(DB_NAME, {
+    username: DB_USERNAME,
+    password: DB_PASSWORD,
+    endpoint: 'localhost',
+    database: DB_NAME,
+    port: 27017,
+  })
+}
+
+module.exports = myDB;
