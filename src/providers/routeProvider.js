@@ -13,42 +13,42 @@ const routeProvider = (name, _Model) => {
     {
       method: 'GET',
       url: `/api/${name}`,
-      handler: () => userController.all()
+      handler: () => _controller.all()
     },
     {
       method: 'POST',
       url: `/api/${name}/many`,
-      handler: (...args) => userController.get(...args),
+      handler: (...args) => _controller.get(...args),
     },
     {
       method: 'GET',
       url: `/api/${name}/:id`,
-      handler: (...args) => userController.getById(...args)
+      handler: (...args) => _controller.getById(...args)
     },
     {
       method: 'POST',
       url: `/api/${name}`,
-      handler: (...args) => userController.add(...args),
+      handler: (...args) => _controller.add(...args),
     },
     {
       method: 'PATCH',
       url: `/api/${name}/:id`,
-      handler: (...args) => userController.update(...args)
+      handler: (...args) => _controller.update(...args)
     },
     {
       method: 'PATCH',
       url: `/api/${name}`,
-      handler: (...args) => userController.update(...args)
+      handler: (...args) => _controller.update(...args)
     },
     {
       method: 'DELETE',
       url: `/api/${name}/:id`,
-      handler: (...args) => userController.delete(...args)
+      handler: (...args) => _controller.delete(...args)
     },
     {
       method: 'DELETE',
       url: `/api/${name}`,
-      handler: (...args) => userController.delete(...args)
+      handler: (...args) => _controller.delete(...args)
     }
   ]
 }

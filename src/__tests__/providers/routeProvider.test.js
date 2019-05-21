@@ -45,7 +45,7 @@ describe('Route Provider for mongoDB with personnal ControllerProvider', () => {
           expect(route['url']).to.equal(urls[index]);
         });
 
-        it(`handler shoul be a function`, () => {
+        it(`handler should be a function`, () => {
           expect(route['handler']).to.be.a('function');
         });
       });
