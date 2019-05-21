@@ -22,7 +22,7 @@ if( !myDB ) {
   myDB = new Database(DB_NAME, {
     username: DB_USERNAME,
     password: DB_PASSWORD,
-    endpoint: 'localhost',
+    endpoint: DB_ENDPOINT,
     database: DB_NAME,
     port: 27017,
   })
