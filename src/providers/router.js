@@ -8,7 +8,7 @@ const ControllerProvider = require('./controllerProvider');
 */
 const router = (name, _Model, _Controller = ControllerProvider) => {
   const _controller = new _Controller(_Model);
-
+  
   return [
     {
       method: 'GET',
