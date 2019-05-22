@@ -6,8 +6,8 @@ const ControllerProvider = require('./controllerProvider');
  * @param {Class} Model - the Model linked to the route
  * @return {array} - Array of routes to use with fastify
 */
-const routeProvider = (name, _Model) => {
-  const _controller = new ControllerProvider(_Model);
+const router = (name, _Model, _Controller = ControllerProvider) => {
+  const _controller = new _Controller(_Model);
 
   return [
     {
@@ -53,4 +53,4 @@ const routeProvider = (name, _Model) => {
   ]
 }
 
-module.exports = routeProvider;
+module.exports = router;
