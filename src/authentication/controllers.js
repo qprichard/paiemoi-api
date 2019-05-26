@@ -1,5 +1,5 @@
-const boom = require('boom');
 const User = require('../user/models');
+const BasicAuth = require('./models');
 const jwt = require('jsonwebtoken');
 let config = null;
 if(process.env.NODE_ENV == 'production') {
@@ -10,34 +10,59 @@ if(process.env.NODE_ENV == 'production') {
 const { TOKEN_SIGNATURE } = config;
 
 
-exports.authenticate = async (req) => {
+/**
+  * If user is already in auth table, update its token, else, create the instance
+  * @param {string} userID - ID of the user
+  * @returns {class} - Return an intance of the Auth
+*/
+const _updateOrCreate = (userID, token) => {
+  try {
+    return BasicAuth.get({ user: userID }).then(([instance]) => {
+      if(!instance) {
+        const auth = new BasicAuth({ user: userID, token: token });
+        return auth.save();
+      }
+      instance.token = token;
+      return instance.save();
+
+    }). catch((err) => { throw new Error(err) } )
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+
+exports.authenticate = async (req, res) => {
   try {
     const { username, password } = req.body;
     if(!username || !password) {
       throw new Error('Authentication failed. username and password required');
     }
 
-    const user = await User.get({ username });
+    const [user] = await User.get({ username });
 
-    if(!user || !user.length) {
+    if(!user) {
       throw new Error('Authentication failed. User not found.');
     }
 
-    console.log(user)
-    //check if password matches
-    if(!user.comparePassword(password)) {
+    //check if password and hash match
+    const passwordMatch = await user.comparePassword(password);
+    if(!passwordMatch) {
       throw new Error('Authentication failed. Wrong password');
     }
+
 
     const payload = {
       username: user.username,
     };
 
     const token  = jwt.sign(payload, TOKEN_SIGNATURE, {
-      expiresInMinutes: 1440
+      expiresIn: 1440
     });
-    return { token, message: "token provided" }
+
+    await _updateOrCreate(user.id, token);
+
+    return { token };
   } catch (err) {
-    throw boom.boomify(err);
+    return err;
   }
 }

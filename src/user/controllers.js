@@ -1,5 +1,4 @@
 /* USER controller */
-const boom = require('boom');
 const User = require('./models');
 const bcrypt = require('bcrypt');
 const ControllerProvider = require('../providers/controllerProvider');
@@ -8,7 +7,7 @@ class UserController extends ControllerProvider {
   constructor(Model){
     super();
     this._Model = Model;
-    
+
     this.required = [
       'username',
       'email',
@@ -18,7 +17,7 @@ class UserController extends ControllerProvider {
     ]
   }
 
-  async add(req) {
+  async add(req, res) {
     try {
       this.required.forEach(field => {
         if(!req.body[field]) {
@@ -35,7 +34,7 @@ class UserController extends ControllerProvider {
       return model.save();
 
     } catch (err) {
-      throw boom.boomify(err);
+      return err
     }
   }
 }

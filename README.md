@@ -25,6 +25,11 @@ optional:
 
 2. application installation
 
+install node with nvm (or not, your choice):
+- `wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash`7
+- `command -v nvm`  
+- `nvm install node`
+
 Using node v12.2.0: `npm i`
 
 - dev watch: `npm run watch`

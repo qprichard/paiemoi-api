@@ -8,12 +8,12 @@ const ControllerProvider = require('./controllerProvider');
 */
 const router = (name, _Model, _Controller = ControllerProvider) => {
   const _controller = new _Controller(_Model);
-  
+
   return [
     {
       method: 'GET',
       url: `/api/${name}`,
-      handler: () => _controller.all()
+      handler: (...args) => _controller.all(...args)
     },
     {
       method: 'POST',
