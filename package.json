@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "NODE_ENV=test nyc mocha --exit",
+    "test": "NODE_ENV=test nyc mocha --exit src/__tests__/*",
+    "singtest": "NODE_ENV=test nyc mocha --exit",
     "server": "node ./src/app",
     "dev": "NODE_ENV=development npm-run-all server",
     "clean": "rimraf dist",
