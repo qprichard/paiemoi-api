@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "NODE_ENV=test nyc mocha --exit ./src/__tests__/*",
+    "test": "NODE_ENV=test nyc mocha --exit",
     "server": "node ./src/app",
     "dev": "NODE_ENV=development npm-run-all server",
     "clean": "rimraf dist",
@@ -12,10 +12,10 @@
   },
   "dependencies": {
     "@jsmrcaga/mongo": "^0.1.0",
-    "boom": "^7.3.0",
+    "bcrypt": "^3.0.6",
     "express": "~4.16.1",
     "fastify": "^2.3.0",
-    "fastify-swagger": "^2.4.0",
+    "jsonwebtoken": "^8.5.1",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3"
   },
