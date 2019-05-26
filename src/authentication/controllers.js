@@ -61,7 +61,7 @@ exports.authenticate = async (req, res) => {
 
     await _updateOrCreate(user.id, token);
 
-    return { token };
+    return { token, user };
   } catch (err) {
     return err;
   }
