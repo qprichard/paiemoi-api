@@ -1,4 +1,5 @@
 const User = require('./models');
-const routeProvider = require('../providers/routeProvider');
+const router = require('../providers/router');
+const UserController = require('./controllers');
 
-module.exports = routeProvider('names', User);
+module.exports = router('users', User, UserController);

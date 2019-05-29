@@ -1,11 +1,11 @@
 const mongoDB = require('../../db');
 const expect = require('chai').expect;
-const routeProvider = require('../../providers/routeProvider');
+const router = require('../../providers/router');
 
 describe('Route Provider for mongoDB with personnal ControllerProvider', () => {
   const Test = mongoDB.model('Test');
 
-  const testRouter = routeProvider('tests', Test);
+  const testRouter = router('tests', Test);
 
   it('should render an array of object', () => {
     expect(testRouter).to.be.an('array');

@@ -4,7 +4,8 @@ const router = fastify({
 });
 
 const apiRoutes = [
-  ...require('./user/routes')
+  ...require('./user/routes'),
+  ...require('./authentication/routes')
 ]
 
 //Declare a route
