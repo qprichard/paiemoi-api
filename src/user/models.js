@@ -37,6 +37,16 @@ class User extends UserModel {
       throw new Error(err)
     }
   }
+
+  toAPI() {
+    return {
+      id: this.id,
+      username: this.username,
+      lastname: this.lastname,
+      firstname: this.firstname,
+      email: this.email,
+    }
+  }
 }
 
 module.exports = User;
