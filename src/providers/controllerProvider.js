@@ -8,10 +8,9 @@ class ControllerProvider {
   //get All instances of a model
   async all(req, res) {
     try {
-      const list = await this._Model.all()
-      return list;
+      return await this._Model.all();
     } catch (err){
-      throw err
+      return err
     }
   }
 
@@ -27,7 +26,7 @@ class ControllerProvider {
       }
       return instance;
     } catch (err) {
-      throw err
+      return err
     }
   }
 
@@ -38,7 +37,7 @@ class ControllerProvider {
       const list = await this._Model.get(body)
       return list;
     } catch (err) {
-      throw err
+      return err
     }
   }
 
@@ -57,7 +56,7 @@ class ControllerProvider {
       const models = instances.map( instance => new this._Model(instance))
       return await this._Model.insertMany(models)
     } catch (err) {
-      throw err
+      return err
     }
   }
 
@@ -93,7 +92,7 @@ class ControllerProvider {
 
       return await this._Model.updateMany(updatedModels);
     } catch (err) {
-      throw err
+      return err
     }
   }
 
@@ -119,7 +118,7 @@ class ControllerProvider {
       const deleted = await this._Model.delete(toDelete);
       return deleted;
     } catch(err) {
-      throw err
+      return err
     }
   }
 }
