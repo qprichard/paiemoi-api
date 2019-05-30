@@ -12,21 +12,15 @@ const router =  [
     handler: (...args) => userController.all(...args)
   },
   {
+    method: 'GET',
+    url: `/api/users/:id`,
+    beforeHandler: [authTokenMiddleware],
+    handler: (...args) => userController.getById(...args)
+  },
+  {
     method: 'POST',
     url: `/api/users`,
     handler: (...args) => userController.add(...args),
-  },
-  {
-    method: 'PATCH',
-    url: `/api/users/:id`,
-    beforeHandler: [authTokenMiddleware],
-    handler: (...args) => userController.update(...args)
-  },
-  {
-    method: 'DELETE',
-    url: `/api/users/:id`,
-    beforeHandler: [authTokenMiddleware],
-    handler: (...args) => userController.delete(...args)
-  },
+  }
 ]
 module.exports = router;
