@@ -24,11 +24,13 @@ describe('User Controller', () => {
       lastname: 'test',
     }})
 
-    const [myUser] = await uc.all();
-    const compare = await myUser.comparePassword('test');
-
-    expect(myUser).to.deep.equal(user);
-    expect(compare).to.equal(true)
+    expect(user).to.deep.equal({
+      email: 'test',
+      lastname: 'test',
+      firstname: 'test',
+      username: 'test',
+      id: user.id
+    });
   });
 
   it('should throw a missing parameters Error', async () => {
@@ -36,5 +38,33 @@ describe('User Controller', () => {
 
     expect(response).to.be.an.instanceOf(Error)
     expect(response.message).to.equals('Missing parameter: username')
+  });
+
+  it('should retrieve all instances of user formated to API', async () => {
+    await uc.add({ body: {
+      username: 'test',
+      password: 'test',
+      email: 'test',
+      firstname: 'test',
+      lastname: 'test',
+    }})
+
+    await uc.add({ body: {
+      username: 'test2',
+      password: 'test2',
+      email: 'test2',
+      firstname: 'test2',
+      lastname: 'test2',
+    }})
+
+    const response = await uc.all();
+
+    expect(response).to.have.length(2)
+    expect(response[0]).to.have.property('username');
+    expect(response[0]).to.have.property('lastname');
+    expect(response[0]).to.have.property('id');
+    expect(response[0]).to.have.property('firstname');
+    expect(response[0]).to.have.property('email');
+    expect(response[0]).not.to.have.property('password');
   });
 })

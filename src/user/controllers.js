@@ -1,6 +1,7 @@
 /* USER controller */
 const User = require('./models');
 const bcrypt = require('bcrypt');
+const toAPI = require('../helpers/toApi');
 const ControllerProvider = require('../providers/controllerProvider');
 
 class UserController extends ControllerProvider {
@@ -31,11 +32,21 @@ class UserController extends ControllerProvider {
 
       //insert the model
       const model = new this._Model({ password: hash, ...rest });
-      return model.save();
+      return model.save().then((instance) => {
+        return instance.toAPI();
+      }).catch( err => { throw new Error(err) } );
 
     } catch (err) {
       return err
     }
+  }
+
+  async all() {
+    return toAPI(await super.all());
+  }
+
+  async getById(...props) {
+    return toAPI(await super.getById(...props));
   }
 }
 
