@@ -8,11 +8,6 @@ const apiRoutes = [
   ...require('./authentication/routes')
 ]
 
-//Declare a route
-router.get('/', async(request, reply) => {
-  return { hello: 'world'}
-});
-
 //add api apiRoutes to fastify
 apiRoutes.forEach( (route) => {
   router.route(route)

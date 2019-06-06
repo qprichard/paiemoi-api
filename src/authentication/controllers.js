@@ -7,6 +7,7 @@ if(process.env.NODE_ENV == 'production') {
 } else {
   config = require('../../public/config.test');
 }
+const toAPI = require('../helpers/toApi');
 const { TOKEN_SIGNATURE } = config;
 
 
@@ -61,7 +62,7 @@ exports.authenticate = async (req, res) => {
 
     await _updateOrCreate(user.id, token);
 
-    return { token };
+    return { token, user: toAPI(user) };
   } catch (err) {
     return err;
   }
