@@ -44,7 +44,6 @@ describe('Test httpResponse methods', () => {
     it('ok',  () => {
       const response = httpResponse.ok('ok');
 
-      expect(response).to.be.instanceOf(Error);
       expect(response.status).to.equal(200);
       expect(response.name).to.equal('OK ');
       expect(response.message).to.equal('ok');
@@ -53,7 +52,6 @@ describe('Test httpResponse methods', () => {
     it('created',  () => {
       const response = httpResponse.created('created');
 
-      expect(response).to.be.instanceOf(Error);
       expect(response.status).to.equal(201);
       expect(response.name).to.equal('Created ');
       expect(response.message).to.equal('created');

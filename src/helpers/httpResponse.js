@@ -12,6 +12,24 @@ class HTTPError extends Error {
   }
 }
 
+class HTTPSuccess {
+  constructor(code, message, extras) {
+    this._extras = extras;
+    this._message = message;
+    this._name = toName(code);
+    this._status = code;
+  }
+
+  response() {
+    return {
+      status: this._status,
+      name: this._name,
+      message: this._message,
+      body: this._extras,
+    }
+  }
+}
+
 function toName (code) {
   const suffix = (code / 100 | 0) === 4 || (code / 100 | 0) === 5 ? 'error' : '';
   return `${String(STATUS_CODES[code]).replace(/error$/i, '')} ${suffix}`;
@@ -46,11 +64,13 @@ function notFound(message, extras={}) {
 }
 
 function ok(message, extras={}) {
-  return new HTTPError(200, message, extras);
+  const response = new HTTPSuccess(200, message, extras);
+  return response.response();
 }
 
 function created(message, extras={}) {
-  return new HTTPError(201, message, extras);
+  const response = new HTTPSuccess(201, message, extras);
+  return response.response();
 }
 
 module.exports = {
