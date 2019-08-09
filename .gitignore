@@ -62,5 +62,6 @@ typings/
 
 package-lock.json
 public/config.js
+public/config.dev.js
 mongodb*
 data

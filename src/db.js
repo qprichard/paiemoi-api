@@ -2,6 +2,8 @@ const { Database } = require('@jsmrcaga/mongo');
 let config = null;
 if(process.env.NODE_ENV == 'production') {
   config = require('../public/config');
+} else if(process.env.NODE_ENV == 'development') {
+  config = require('../public/config.dev')
 } else {
   config = require('../public/config.test');
 }
