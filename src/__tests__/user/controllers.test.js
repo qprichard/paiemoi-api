@@ -28,7 +28,6 @@ describe('User Controller', () => {
       email: 'test',
       lastname: 'test',
       firstname: 'test',
-      username: 'test',
       id: user.id
     });
   });
@@ -37,7 +36,7 @@ describe('User Controller', () => {
     const response = await uc.add({ body: {}})
 
     expect(response).to.be.an.instanceOf(Error)
-    expect(response.message).to.equals('Missing parameter: username')
+    expect(response.message).to.equals('Missing parameter email')
   });
 
   it('should retrieve all instances of user formated to API', async () => {
@@ -60,7 +59,6 @@ describe('User Controller', () => {
     const response = await uc.all();
 
     expect(response).to.have.length(2)
-    expect(response[0]).to.have.property('username');
     expect(response[0]).to.have.property('lastname');
     expect(response[0]).to.have.property('id');
     expect(response[0]).to.have.property('firstname');

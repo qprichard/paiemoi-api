@@ -16,22 +16,22 @@ describe('Authentication Controllers', () => {
   let user = null;
   beforeEach(async () => { 
     user = new User({
-      username: 'test',
+      email: 'test',
       password: await bcrypt.hash('test', 10),
     })
     await user.save();
   });
 
-  it('should return Error : "Authentication failed. username and password required"', async () => {
+  it('should return Error : "Authentication failed. email and password required"', async () => {
     const response = await authController.authenticate({ body: {} });
 
     expect(response).to.be.an.instanceOf(Error);
-    expect(response.message).to.equal('Authentication failed. username and password required')
+    expect(response.message).to.equal('Authentication failed. email and password required')
   });
 
   it('should return Error : "Authentication failed. User not found"', async () => {
     const response = await authController.authenticate({ body: {
-      username: 'test-2',
+      email: 'test-2',
       password: 'test'
     } });
 
@@ -41,7 +41,7 @@ describe('Authentication Controllers', () => {
 
   it('should return Error : "Authentication failed. Wrong password"', async () => {
     const response = await authController.authenticate({ body: {
-      username: 'test',
+      email: 'test',
       password: 'test-2'
     } });
 
@@ -51,14 +51,14 @@ describe('Authentication Controllers', () => {
 
   it('should return a token and create an instance in Auth table"', async () => {
     const response = await authController.authenticate({ body: {
-      username: 'test',
+      email: 'test',
       password: 'test'
     } });
 
     const [auth] = await Auth.get({ user: user.id});
 
-    expect(response).to.have.property('token');
-    expect(auth.token).to.equal(response.token);
+    expect(response.data).to.have.property('token');
+    expect(auth.token).to.equal(response.data.token);
   });
 
   it('should return a token and update token in Auth table"', async () => {
@@ -70,14 +70,14 @@ describe('Authentication Controllers', () => {
 
 
     const response = await authController.authenticate({ body: {
-      username: 'test',
+      email: 'test',
       password: 'test'
     } });
 
     [myAuth] = await Auth.get({ user: user.id });
 
-    expect(response).to.have.property('token');
+    expect(response.data).to.have.property('token');
     expect(myAuth.user).to.equal(user.id);
-    expect(myAuth.token).to.equal(response.token);
+    expect(myAuth.token).to.equal(response.data.token);
   });
 });

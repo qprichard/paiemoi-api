@@ -25,7 +25,7 @@ class HTTPSuccess {
       status: this._status,
       name: this._name,
       message: this._message,
-      body: this._extras,
+      data: this._extras,
     }
   }
 }
@@ -41,8 +41,8 @@ function toName (code) {
  * @param {object} extras - informations
  * @returns {object}
 **/
-function badRequest(message, extras={}) {
-  return new HTTPError(400, message, extras);
+function badRequest(message) {
+  return new HTTPError(400, message);
 }
 
 /**

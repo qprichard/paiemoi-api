@@ -9,6 +9,7 @@ if(process.env.NODE_ENV == 'production') {
 }
 const toAPI = require('../helpers/toApi');
 const { TOKEN_SIGNATURE } = config;
+const { badRequest, forbidden, ok } = require('../helpers/httpResponse');
 
 
 /**
@@ -34,26 +35,27 @@ const _updateOrCreate = (userID, token) => {
 
 exports.authenticate = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    if(!username || !password) {
-      throw new Error('Authentication failed. username and password required');
+    const { email, password } = req.body;
+    if(!email || !password) {
+      throw badRequest('Authentication failed. email and password required');
     }
 
-    const [user] = await User.get({ username });
+    const [user] = await User.get({ email });
 
     if(!user) {
-      throw new Error('Authentication failed. User not found.');
+      throw forbidden('Authentication failed. User not found.');
     }
 
     //check if password and hash match
     const passwordMatch = await user.comparePassword(password);
     if(!passwordMatch) {
-      throw new Error('Authentication failed. Wrong password');
+      throw forbidden('Authentication failed. Wrong password');
     }
 
 
     const payload = {
-      username: user.username,
+      id: user.id,
+      email: email.username,
     };
 
     const token  = jwt.sign(payload, TOKEN_SIGNATURE, {
@@ -62,7 +64,7 @@ exports.authenticate = async (req, res) => {
 
     await _updateOrCreate(user.id, token);
 
-    return { token, user: toAPI(user) };
+    return ok('User Connected', { token, user: toAPI(user) });
   } catch (err) {
     return err;
   }
