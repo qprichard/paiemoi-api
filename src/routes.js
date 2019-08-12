@@ -5,7 +5,8 @@ const router = fastify({
 
 const apiRoutes = [
   ...require('./user/routes'),
-  ...require('./authentication/routes')
+  ...require('./authentication/routes'),
+  ...require('./wallet/routes'),
 ]
 
 //add api apiRoutes to fastify

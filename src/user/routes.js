@@ -8,13 +8,13 @@ const router =  [
   {
     method: 'GET',
     url: `/api/users`,
-    beforeHandler: [authTokenMiddleware],
+    preHandler: [authTokenMiddleware],
     handler: (...args) => userController.all(...args)
   },
   {
     method: 'GET',
     url: `/api/users/:id`,
-    beforeHandler: [authTokenMiddleware],
+    preHandler: [authTokenMiddleware],
     handler: (...args) => userController.getById(...args)
   },
   {
