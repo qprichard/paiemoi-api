@@ -1,9 +1,10 @@
 const mongoDB = require('../../db');
 const expect = require('chai').expect;
 const User = require('../../user/models');
-const Auth = require('../../authentication/models');
-const authController = require('../../authentication/controllers');
+const Auth = require('../models');
+const authController = require('../controllers');
 const bcrypt = require('bcrypt');
+const res = require('../../helpers/res');
 
 describe('Authentication Controllers', () => {
   before(done => {
@@ -16,44 +17,42 @@ describe('Authentication Controllers', () => {
   let user = null;
   beforeEach(async () => { 
     user = new User({
-      username: 'test',
+      email: 'test',
       password: await bcrypt.hash('test', 10),
     })
     await user.save();
   });
 
-  it('should return Error : "Authentication failed. username and password required"', async () => {
-    const response = await authController.authenticate({ body: {} });
+  it('should return Error : "Authentication failed. email and password required"', async () => {
+    const response = await authController.authenticate({ body: {} }, res);
 
-    expect(response).to.be.an.instanceOf(Error);
-    expect(response.message).to.equal('Authentication failed. username and password required')
+
+    expect(response.message).to.equal('Authentication failed. email and password required')
   });
 
   it('should return Error : "Authentication failed. User not found"', async () => {
     const response = await authController.authenticate({ body: {
-      username: 'test-2',
+      email: 'test-2',
       password: 'test'
-    } });
+    } }, res);
 
-    expect(response).to.be.an.instanceOf(Error);
     expect(response.message).to.equal('Authentication failed. User not found.')
   });
 
   it('should return Error : "Authentication failed. Wrong password"', async () => {
     const response = await authController.authenticate({ body: {
-      username: 'test',
+      email: 'test',
       password: 'test-2'
-    } });
+    } }, res);
 
-    expect(response).to.be.an.instanceOf(Error);
     expect(response.message).to.equal('Authentication failed. Wrong password')
   });
 
   it('should return a token and create an instance in Auth table"', async () => {
     const response = await authController.authenticate({ body: {
-      username: 'test',
+      email: 'test',
       password: 'test'
-    } });
+    } }, res);
 
     const [auth] = await Auth.get({ user: user.id});
 
@@ -70,9 +69,9 @@ describe('Authentication Controllers', () => {
 
 
     const response = await authController.authenticate({ body: {
-      username: 'test',
+      email: 'test',
       password: 'test'
-    } });
+    } }, res);
 
     [myAuth] = await Auth.get({ user: user.id });
 

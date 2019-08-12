@@ -1,6 +1,6 @@
 const mongoDB = require('../../db');
 const expect = require('chai').expect;
-const ControllerProvider = require('../../providers/controllerProvider');
+const ControllerProvider = require('../controllerProvider');
 
 describe('Controller Provider for mongo models', () => {
   const TestModel = mongoDB.model('Test');

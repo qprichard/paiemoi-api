@@ -3,6 +3,7 @@ const User = require('./models');
 const bcrypt = require('bcrypt');
 const toAPI = require('../helpers/toApi');
 const ControllerProvider = require('../providers/controllerProvider');
+const { badRequest, created } = require('../helpers/httpResponse');
 
 class UserController extends ControllerProvider {
   constructor(Model){
@@ -10,7 +11,6 @@ class UserController extends ControllerProvider {
     this._Model = Model;
 
     this.required = [
-      'username',
       'email',
       'password',
       'firstname',
@@ -22,7 +22,7 @@ class UserController extends ControllerProvider {
     try {
       this.required.forEach(field => {
         if(!req.body[field]) {
-          throw new Error(`Missing parameter: ${field}`)
+          throw badRequest(res, `Missing parameter ${field}`, { required: this.required })
         }
       });
 
@@ -33,8 +33,8 @@ class UserController extends ControllerProvider {
       //insert the model
       const model = new this._Model({ password: hash, ...rest });
       return model.save().then((instance) => {
-        return instance.toAPI();
-      }).catch( err => { throw new Error(err) } );
+        return created(res, instance.toAPI());
+      }).catch( err => { throw err } );
 
     } catch (err) {
       return err

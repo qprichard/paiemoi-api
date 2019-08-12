@@ -1,17 +1,5 @@
 const { STATUS_CODES } = require('http');
 
-class HTTPError extends Error {
-  constructor(code, message, extras) {
-    super(message || STATUS_CODES[code]);
-    if(arguments.length >= 3 && extras) {
-      Object.assign(this, extras);
-    }
-
-    this.name = toName(code);
-    this.status = code;
-  }
-}
-
 function toName (code) {
   const suffix = (code / 100 | 0) === 4 || (code / 100 | 0) === 5 ? 'error' : '';
   return `${String(STATUS_CODES[code]).replace(/error$/i, '')} ${suffix}`;
@@ -23,8 +11,14 @@ function toName (code) {
  * @param {object} extras - informations
  * @returns {object}
 **/
-function badRequest(message, extras={}) {
-  return new HTTPError(400, message, extras);
+function badRequest(res, message, extras) {
+  res.status(400);
+  return res.send({
+    statusCode: 400,
+    statusName: toName(400),
+    message,
+    data: extras,
+  })
 }
 
 /**
@@ -33,24 +27,44 @@ function badRequest(message, extras={}) {
  * @param {object} extras - informations
  * @returns {object}
 **/
-function unauthorized(message, extras={}) {
-  return new HTTPError(401, message, extras);
+function unauthorized(res, message, extras) {
+  res.status(401);
+  return res.send({
+    statusCode: 401,
+    statusName: toName(401),
+    message,
+    data: extras
+  })
 }
 
-function forbidden(message, extras={}) {
-  return new HTTPError(403, message, extras);
+function forbidden(res, message, extras) {
+  res.status(403);
+  return res.send({
+    statusCode: 403,
+    statusName: toName(403),
+    message,
+    data: extras
+  });
 }
 
-function notFound(message, extras={}) {
-  return new HTTPError(404, message, extras);
+function notFound(res, message, extras) {
+  res.status(404);
+  return res.send({
+    statusCode: 404,
+    statusName: toName(404),
+    message,
+    data: extras,
+  })
 }
 
-function ok(message, extras={}) {
-  return new HTTPError(200, message, extras);
+function ok(res, data) {
+  res.status(200);
+  return res.send(data)
 }
 
-function created(message, extras={}) {
-  return new HTTPError(201, message, extras);
+function created(res, data) {
+  res.status(201);
+  return res.send(data);
 }
 
 module.exports = {

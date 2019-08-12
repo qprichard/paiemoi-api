@@ -1,62 +1,53 @@
 const expect = require('chai').expect;
 const httpResponse = require('../httpResponse');
+const res = require('../res');
 
 describe('Test httpResponse methods', () => {
   describe('Errors', () => {
     it('badRequest',  () => {
-      const response = httpResponse.badRequest('this is a bad request');
+      const response = httpResponse.badRequest(res, 'this is a bad request');
 
-      expect(response).to.be.instanceOf(Error);
-      expect(response.status).to.equal(400);
-      expect(response.name).to.equal('Bad Request error');
+      expect(response.statusCode).to.equal(400);
+      expect(response.statusName).to.equal('Bad Request error');
       expect(response.message).to.equal('this is a bad request');
     });
 
     it('unauthorized',  () => {
-      const response = httpResponse.unauthorized('you are unauthorized');
+      const response = httpResponse.unauthorized(res, 'you are unauthorized');
 
-      expect(response).to.be.instanceOf(Error);
-      expect(response.status).to.equal(401);
-      expect(response.name).to.equal('Unauthorized error');
+      expect(response.statusCode).to.equal(401);
+      expect(response.statusName).to.equal('Unauthorized error');
       expect(response.message).to.equal('you are unauthorized');
     });
 
     it('forbidden',  () => {
-      const response = httpResponse.forbidden('forbidden');
+      const response = httpResponse.forbidden(res, 'forbidden');
 
-      expect(response).to.be.instanceOf(Error);
-      expect(response.status).to.equal(403);
-      expect(response.name).to.equal('Forbidden error');
+      expect(response.statusCode).to.equal(403);
+      expect(response.statusName).to.equal('Forbidden error');
       expect(response.message).to.equal('forbidden');
     });
 
     it('notFound',  () => {
-      const response = httpResponse.notFound('not found');
+      const response = httpResponse.notFound(res, 'not found');
 
-      expect(response).to.be.instanceOf(Error);
-      expect(response.status).to.equal(404);
-      expect(response.name).to.equal('Not Found error');
+      expect(response.statusCode).to.equal(404);
+      expect(response.statusName).to.equal('Not Found error');
       expect(response.message).to.equal('not found');
     });
   });
 
   describe('Success', () => {
     it('ok',  () => {
-      const response = httpResponse.ok('ok');
+      const response = httpResponse.ok(res, 'ok');
 
-      expect(response).to.be.instanceOf(Error);
-      expect(response.status).to.equal(200);
-      expect(response.name).to.equal('OK ');
-      expect(response.message).to.equal('ok');
+      expect(response).to.equal('ok');
     });
 
     it('created',  () => {
-      const response = httpResponse.created('created');
+      const response = httpResponse.created(res, 'created');
 
-      expect(response).to.be.instanceOf(Error);
-      expect(response.status).to.equal(201);
-      expect(response.name).to.equal('Created ');
-      expect(response.message).to.equal('created');
+      expect(response).to.equal("created");
     });
   });
 });

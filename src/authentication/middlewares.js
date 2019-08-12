@@ -7,17 +7,18 @@ if(process.env.NODE_ENV == 'production') {
   config = require('../../public/config.test');
 }
 const { TOKEN_SIGNATURE } = config;
+const {badRequest, unauthorized } = require('../helpers/httpResponse');
 
 exports.authTokenMiddleware = (req, res, next) => {
   try{
     //check for token
     const token = req.query.token || (req.body && req.body.token) || req.headers['authorization'];
-    
+
     //decode token
     if (token) {
       jwt.verify(token, TOKEN_SIGNATURE, (err, decoded) => {
         if(err) {
-          throw new Error(err);
+          throw badRequest(res, err);
         } else {
 
           //check existance of that token in our database
@@ -29,11 +30,11 @@ exports.authTokenMiddleware = (req, res, next) => {
             req.user = auth.user;
             req.decoded = decoded;
             next();
-          }).catch((err) => { throw new Error(err) })
+          }).catch((err) => { throw badRequest(res, err) })
         }
       });
     } else {
-      throw new Error('no token provided');
+      throw unauthorized(res, 'no token provided');
     }
 
   } catch (err) {

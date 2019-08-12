@@ -1,8 +1,9 @@
 const mongoDB = require('../../db');
 const expect = require('chai').expect;
-const User = require('../../user/models');
-const UserController = require('../../user/controllers');
+const User = require('../models');
+const UserController = require('../controllers');
 const bcrypt = require('bcrypt');
+const res = require('../../helpers/res');
 
 describe('User Controller', () => {
   before(done => {
@@ -22,22 +23,20 @@ describe('User Controller', () => {
       email: 'test',
       firstname: 'test',
       lastname: 'test',
-    }})
+    }}, res)
 
     expect(user).to.deep.equal({
       email: 'test',
       lastname: 'test',
       firstname: 'test',
-      username: 'test',
       id: user.id
     });
   });
 
   it('should throw a missing parameters Error', async () => {
-    const response = await uc.add({ body: {}})
+    const response = await uc.add({ body: {}}, res)
 
-    expect(response).to.be.an.instanceOf(Error)
-    expect(response.message).to.equals('Missing parameter: username')
+    expect(response.message).to.equals('Missing parameter email')
   });
 
   it('should retrieve all instances of user formated to API', async () => {
@@ -47,7 +46,7 @@ describe('User Controller', () => {
       email: 'test',
       firstname: 'test',
       lastname: 'test',
-    }})
+    }}, res)
 
     await uc.add({ body: {
       username: 'test2',
@@ -55,12 +54,11 @@ describe('User Controller', () => {
       email: 'test2',
       firstname: 'test2',
       lastname: 'test2',
-    }})
+    }}, res)
 
     const response = await uc.all();
 
     expect(response).to.have.length(2)
-    expect(response[0]).to.have.property('username');
     expect(response[0]).to.have.property('lastname');
     expect(response[0]).to.have.property('id');
     expect(response[0]).to.have.property('firstname');
