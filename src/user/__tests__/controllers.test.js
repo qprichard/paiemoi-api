@@ -1,8 +1,9 @@
 const mongoDB = require('../../db');
 const expect = require('chai').expect;
-const User = require('../../user/models');
-const UserController = require('../../user/controllers');
+const User = require('../models');
+const UserController = require('../controllers');
 const bcrypt = require('bcrypt');
+const res = require('../../helpers/res');
 
 describe('User Controller', () => {
   before(done => {
@@ -22,7 +23,7 @@ describe('User Controller', () => {
       email: 'test',
       firstname: 'test',
       lastname: 'test',
-    }})
+    }}, res)
 
     expect(user).to.deep.equal({
       email: 'test',
@@ -33,9 +34,8 @@ describe('User Controller', () => {
   });
 
   it('should throw a missing parameters Error', async () => {
-    const response = await uc.add({ body: {}})
+    const response = await uc.add({ body: {}}, res)
 
-    expect(response).to.be.an.instanceOf(Error)
     expect(response.message).to.equals('Missing parameter email')
   });
 
@@ -46,7 +46,7 @@ describe('User Controller', () => {
       email: 'test',
       firstname: 'test',
       lastname: 'test',
-    }})
+    }}, res)
 
     await uc.add({ body: {
       username: 'test2',
@@ -54,7 +54,7 @@ describe('User Controller', () => {
       email: 'test2',
       firstname: 'test2',
       lastname: 'test2',
-    }})
+    }}, res)
 
     const response = await uc.all();
 

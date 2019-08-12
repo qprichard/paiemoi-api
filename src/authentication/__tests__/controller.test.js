@@ -1,9 +1,10 @@
 const mongoDB = require('../../db');
 const expect = require('chai').expect;
 const User = require('../../user/models');
-const Auth = require('../../authentication/models');
-const authController = require('../../authentication/controllers');
+const Auth = require('../models');
+const authController = require('../controllers');
 const bcrypt = require('bcrypt');
+const res = require('../../helpers/res');
 
 describe('Authentication Controllers', () => {
   before(done => {
@@ -23,9 +24,9 @@ describe('Authentication Controllers', () => {
   });
 
   it('should return Error : "Authentication failed. email and password required"', async () => {
-    const response = await authController.authenticate({ body: {} });
+    const response = await authController.authenticate({ body: {} }, res);
 
-    expect(response).to.be.an.instanceOf(Error);
+
     expect(response.message).to.equal('Authentication failed. email and password required')
   });
 
@@ -33,9 +34,8 @@ describe('Authentication Controllers', () => {
     const response = await authController.authenticate({ body: {
       email: 'test-2',
       password: 'test'
-    } });
+    } }, res);
 
-    expect(response).to.be.an.instanceOf(Error);
     expect(response.message).to.equal('Authentication failed. User not found.')
   });
 
@@ -43,9 +43,8 @@ describe('Authentication Controllers', () => {
     const response = await authController.authenticate({ body: {
       email: 'test',
       password: 'test-2'
-    } });
+    } }, res);
 
-    expect(response).to.be.an.instanceOf(Error);
     expect(response.message).to.equal('Authentication failed. Wrong password')
   });
 
@@ -53,12 +52,12 @@ describe('Authentication Controllers', () => {
     const response = await authController.authenticate({ body: {
       email: 'test',
       password: 'test'
-    } });
+    } }, res);
 
     const [auth] = await Auth.get({ user: user.id});
 
-    expect(response.data).to.have.property('token');
-    expect(auth.token).to.equal(response.data.token);
+    expect(response).to.have.property('token');
+    expect(auth.token).to.equal(response.token);
   });
 
   it('should return a token and update token in Auth table"', async () => {
@@ -72,12 +71,12 @@ describe('Authentication Controllers', () => {
     const response = await authController.authenticate({ body: {
       email: 'test',
       password: 'test'
-    } });
+    } }, res);
 
     [myAuth] = await Auth.get({ user: user.id });
 
-    expect(response.data).to.have.property('token');
+    expect(response).to.have.property('token');
     expect(myAuth.user).to.equal(user.id);
-    expect(myAuth.token).to.equal(response.data.token);
+    expect(myAuth.token).to.equal(response.token);
   });
 });

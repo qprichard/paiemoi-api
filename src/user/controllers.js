@@ -22,7 +22,7 @@ class UserController extends ControllerProvider {
     try {
       this.required.forEach(field => {
         if(!req.body[field]) {
-          throw badRequest(`Missing parameter ${field}`)
+          throw badRequest(res, `Missing parameter ${field}`, { required: this.required })
         }
       });
 
@@ -33,7 +33,7 @@ class UserController extends ControllerProvider {
       //insert the model
       const model = new this._Model({ password: hash, ...rest });
       return model.save().then((instance) => {
-        return instance.toAPI();
+        return created(res, instance.toAPI());
       }).catch( err => { throw err } );
 
     } catch (err) {

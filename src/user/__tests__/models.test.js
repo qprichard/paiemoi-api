@@ -1,6 +1,6 @@
 const mongoDB = require('../../db');
 const expect = require('chai').expect;
-const User = require('../../user/models');
+const User = require('../models');
 const bcrypt = require('bcrypt');
 
 describe('User Model', () => {

@@ -1,4 +1,5 @@
 /* Class to provide a controller to a model passed in params */
+const { badRequest } = require("../helpers/httpResponse");
 
 class ControllerProvider {
   constructor(Model) {
@@ -74,7 +75,7 @@ class ControllerProvider {
       const { instances } = req.body;
 
       if(!instances) {
-        throw new Error("instances is required in body or :id in url");
+        throw badRequest(res, "instances is required in body or :id in url");
       }
 
       //update multiple models by ids in body
@@ -109,7 +110,7 @@ class ControllerProvider {
       //delete all instances which have their id in the body
       const { instances } = req.body;
       if(!instances) {
-        throw new Error("instances is required in body");
+        throw badRequest("instances is required in body");
       }
       const toDelete = await this._Model.get({
         id: { $in: instances.map(id => id ) }

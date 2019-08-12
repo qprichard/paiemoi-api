@@ -37,19 +37,19 @@ exports.authenticate = async (req, res) => {
   try {
     const { email, password } = req.body;
     if(!email || !password) {
-      throw badRequest('Authentication failed. email and password required');
+      throw badRequest(res, 'Authentication failed. email and password required');
     }
 
     const [user] = await User.get({ email });
 
     if(!user) {
-      throw forbidden('Authentication failed. User not found.');
+      throw forbidden(res, 'Authentication failed. User not found.');
     }
 
     //check if password and hash match
     const passwordMatch = await user.comparePassword(password);
     if(!passwordMatch) {
-      throw forbidden('Authentication failed. Wrong password');
+      throw forbidden(res, 'Authentication failed. Wrong password');
     }
 
 
@@ -64,7 +64,7 @@ exports.authenticate = async (req, res) => {
 
     await _updateOrCreate(user.id, token);
 
-    return ok('User Connected', { token, user: toAPI(user) });
+    return ok(res, { token, user: toAPI(user) });
   } catch (err) {
     return err;
   }

@@ -1,4 +1,4 @@
-const toAPI = require('../../helpers/toApi');
+const toAPI = require('../toApi');
 const expect = require('chai').expect;
 
 describe('Test helper toAPI', () => {
