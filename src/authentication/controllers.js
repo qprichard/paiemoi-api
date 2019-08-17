@@ -64,7 +64,9 @@ exports.authenticate = async (req, res) => {
 
     await _updateOrCreate(user.id, token);
 
-    return ok(res, { token, user: toAPI(user) });
+    return user.toAPI().then( value => {
+      return ok(res, { token, user: value })
+    }).catch( err => { throw err; })
   } catch (err) {
     return err;
   }

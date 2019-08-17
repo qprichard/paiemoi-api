@@ -40,7 +40,7 @@ exports.authTokenMiddleware = (req, res, next) => {
   } catch (err) {
     res.status(403).send({
       success: false,
-      message: err.message
+      message: err
     })
   }
 }

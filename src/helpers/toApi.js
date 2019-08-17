@@ -1,25 +1,23 @@
 /**
- * Returns data formated to json
+ * Returns Promise of data formated to json
  * data is returned to API type if model has 'toAPI' method
  * @param {(object | array)} data - instance of a class
  * @returns {object} - return json object;
 */
 const toAPI = (data) => {
   if( Array.isArray(data)) {
-    return data.map( instance => {
+    const promises = data.map( async instance => {
       if( typeof instance['toAPI'] === 'function') {
         return instance.toAPI();
       }
       return instance;
-    })
-  }
+    });
 
-  if( data.ops ) {
-    return toAPI(data.ops);
+    return Promise.all(promises).then( (values) => values ).catch((err) => err)
   }
 
   if(typeof data['toAPI'] === 'function') {
-    return data.toAPI();
+    return data.toAPI()
   }
 
   return data;

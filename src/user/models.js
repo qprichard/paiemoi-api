@@ -39,12 +39,12 @@ class User extends UserModel {
   }
 
   toAPI() {
-    return {
+    return Promise.resolve({
       id: this.id,
       lastname: this.lastname,
       firstname: this.firstname,
       email: this.email,
-    }
+    })
   }
 }
 
