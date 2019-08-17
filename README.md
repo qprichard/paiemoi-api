@@ -24,7 +24,7 @@ Actual mongo version: **4.0.2**
 - `sudo service mongod stop`
 - `sudo service mongod start --dbpath <db_path> --port <port> --auth`
 
-## 2. application installation
+## 2. application installation
 
 #### install node with nvm (or not, your choice):
 - `wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash`7
