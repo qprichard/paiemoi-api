@@ -28,30 +28,30 @@ describe('Test helper toAPI', () => {
     }
   }
 
-  it('should retrieve the incoming single data', () => {
+  it('should retrieve the incoming single data', async () => {
     const myData = new Test({ param1: 'test', param2: 'test' });
 
-    expect(toAPI(myData)).to.deep.equal({
+    expect(await toAPI(myData)).to.deep.equal({
       param1: 'test',
       param2: 'test'
     });
   });
 
-  it('should retrieve formated single data', () => {
+  it('should retrieve formated single data', async () => {
     const myData = new TestAPI({ param1: 'test', param2: 'test' });
 
-    expect(toAPI(myData)).to.deep.equal({
+    expect(await toAPI(myData)).to.deep.equal({
       param1: 'test',
     });
   });
 
-  it('should retrieve multiple incoming datas', () => {
+  it('should retrieve multiple incoming datas', async () => {
     const myDatas = [
       new Test({ param1: 'test-1', param2: 'test-1'}),
       new Test({ param1: 'test-2', param2: 'test-2'}),
     ]
 
-    expect(toAPI(myDatas)).to.deep.equals([
+    expect(await toAPI(myDatas)).to.deep.equals([
       {
         param1: 'test-1',
         param2: 'test-1',
@@ -63,13 +63,13 @@ describe('Test helper toAPI', () => {
     ])
   });
 
-  it('should retrieve multiple formated datas', () => {
+  it('should retrieve multiple formated datas', async () => {
     const myDatas = [
       new TestAPI({ param1: 'test-1', param2: 'test-1'}),
       new TestAPI({ param1: 'test-2', param2: 'test-2'}),
     ]
 
-    expect(toAPI(myDatas)).to.deep.equals([
+    expect(await toAPI(myDatas)).to.deep.equals([
       {
         param1: 'test-1',
       },
