@@ -10,6 +10,18 @@ const router = [
     url: '/api/wallets',
     preHandler: [authTokenMiddleware],
     handler: (...args) => walletController.add(...args)
+  },
+  {
+    method: 'GET',
+    url: '/api/wallets',
+    preHandler: [authTokenMiddleware],
+    handler: (...args) => walletController.all(...args)
+  },
+  {
+    method: 'GET',
+    url: '/api/wallets/:id',
+    preHandler: [authTokenMiddleware],
+    handler: (...args) => walletController.getById(...args)
   }
 ];
 

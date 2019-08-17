@@ -18,18 +18,26 @@ class Wallet extends WalletModel {
   }
 
   toAPI() {
-    const ownerPromise = User.get({ id: this.owner });
-    const membersPromise = User.get({ id: { $in: this.members }});
+    //get The owner Informations by its id
+    const ownerPromise = User.get({ id: this.owner }).then(
+      ([instance]) => instance.toAPI()
+    ).catch( err => err );
 
+    //get the members informations by ids
+    const membersPromise = User.get({ id: { $in: this.members }}).then(
+      (instances) => arrayToAPI(instances)
+    ).catch(err => err );
+
+    //Returns a Promise of owner, members id and name of the wallet
     return Promise.all([ownerPromise, membersPromise]).then((values) => {
       const [owner, members] = values;
       return {
         id: this.id,
         name: this.name,
         owner,
-        members
+        members,
       }
-    }).catch(err => { console.log('Erreur', err);})
+    }).catch(err => { throw err; } );
   }
 }
 
