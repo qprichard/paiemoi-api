@@ -32,8 +32,9 @@ class UserController extends ControllerProvider {
 
       //insert the model
       const model = new this._Model({ password: hash, ...rest });
-      return model.save().then((instance) => {
-        return created(res, instance.toAPI());
+      return model.save().then(async (instance) => {
+        instance = await instance.toAPI();
+        return created(res, instance);
       }).catch( err => { throw err } );
 
     } catch (err) {

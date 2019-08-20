@@ -1,7 +1,13 @@
 const fastify = require('fastify');
+
+
 const router = fastify({
   logger: true,
 });
+
+router.register(require('fastify-cors'), {
+  origin: '*',
+})
 
 const apiRoutes = [
   ...require('./user/routes'),
