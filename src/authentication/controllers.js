@@ -71,3 +71,12 @@ exports.authenticate = async (req, res) => {
     return err;
   }
 }
+
+exports.authorize = (req, res) => {
+  try {
+    return ok(res);
+
+  } catch (err) {
+    return err;
+  }
+}
