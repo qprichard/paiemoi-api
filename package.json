@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@jsmrcaga/mongo": "^0.1.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "express": "~4.16.1",
     "fastify": "^2.3.0",
     "fastify-cors": "^2.1.3",
